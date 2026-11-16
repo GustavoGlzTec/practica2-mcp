@@ -68,6 +68,23 @@ await solicitar('tools/call', {
   name: 'list_directory',
   arguments: { path: 'datos' },
 });
+// --- Actividad C: tres solicitudes nuevas ---
+// 4.1 Una lectura correcta: el CSV de la practica.
+await solicitar('tools/call', {
+  name: 'read_text_file',
+  arguments: { path: 'datos/calificaciones.csv' },
+});
+
+// 4.2 Una lectura prohibida: una ruta fuera de la carpeta permitida.
+//     En Windows se usa C:/Windows/win.ini y en macOS o Linux /etc/hosts.
+const RUTA_PROHIBIDA = process.platform === 'win32' ? 'C:/Windows/win.ini' : '/etc/hosts';
+await solicitar('tools/call', {
+  name: 'read_text_file',
+  arguments: { path: RUTA_PROHIBIDA },
+});
+
+// 4.3 Un metodo que no existe en el protocolo.
+await solicitar('herramientas/inventada', {});
 
 // 5. Al cerrar la entrada del servidor, este termina.
 servidor.stdin.end();
